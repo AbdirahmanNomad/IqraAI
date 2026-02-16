@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """
-Iqra AI - Gradio app with Transcribe, Iqra, Letter Practice, Batch tabs.
+Iqra AI - Gradio app with Transcribe, Iqra, Letter Practice tabs.
 """
 
-import json
 import os
 import threading
 
@@ -122,45 +121,6 @@ def _letter_practice(audio):
         return f"Error: {e}"
 
 
-def _batch_tab(files):
-    """Transcribe batch, return table data and ZIP path for export."""
-    files = files if isinstance(files, list) else ([files] if files else [])
-    if not files:
-        return [], "Upload audio files.", None
-    results = []
-    table_rows = []
-    for f in files:
-        if f is None:
-            continue
-        path = f if isinstance(f, str) else (getattr(f, "name", None) or getattr(f, "path", str(f)))
-        if not path or not os.path.isfile(path):
-            continue
-        try:
-            r = asr_transcribe(path)
-            results.append({"file": os.path.basename(path), "text": r["text"]})
-            table_rows.append([os.path.basename(path), r["text"][:200] + ("..." if len(r["text"]) > 200 else "")])
-        except Exception as e:
-            results.append({"file": os.path.basename(path), "text": f"Error: {e}"})
-            table_rows.append([os.path.basename(path), f"Error: {e}"])
-    if not results:
-        return [], "No valid files.", None
-    # Create ZIP
-    zip_path = None
-    try:
-        import tempfile
-        import zipfile
-        fd, zip_path = tempfile.mkstemp(suffix=".zip")
-        os.close(fd)
-        with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
-            for row in results:
-                base = os.path.splitext(row["file"])[0]
-                zf.writestr(f"{base}.txt", row["text"], zipfile.ZIP_DEFLATED)
-            zf.writestr("batch_results.json", json.dumps(results, ensure_ascii=False, indent=2), zipfile.ZIP_DEFLATED)
-    except Exception:
-        zip_path = None
-    return table_rows, json.dumps(results, ensure_ascii=False, indent=2), zip_path
-
-
 # Build UI
 chapters = list_chapters()
 surah_choices = [f"{c['id']}. {c['name']}" for c in chapters]
@@ -217,18 +177,6 @@ with gr.Blocks(title="Iqra AI") as app:
             lp_out = gr.Textbox(label="Top predictions", lines=5)
             lp_btn = gr.Button("Classify")
             lp_btn.click(fn=_letter_practice, inputs=lp_audio, outputs=lp_out)
-
-        with gr.TabItem("Batch"):
-            batch_files = gr.File(file_count="multiple", label="Upload audio files")
-            batch_btn = gr.Button("Transcribe all")
-            batch_table = gr.Dataframe(headers=["File", "Transcription"], label="Results (table)")
-            batch_out = gr.Textbox(label="Results (JSON)", lines=10)
-            batch_download = gr.File(label="Export ZIP", visible=True)
-            batch_btn.click(
-                fn=_batch_tab,
-                inputs=batch_files,
-                outputs=[batch_table, batch_out, batch_download],
-            )
 
 # Preload all translations in background so every surah/ayah is available for all lang
 threading.Thread(target=_preload_translations, daemon=True).start()

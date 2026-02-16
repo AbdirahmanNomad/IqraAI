@@ -32,7 +32,6 @@ World-class Quran speech recognition with Tarteel-style mistake detection, Iqra/
 - **Iqra mode** — Pick Surah:Ayah, recite, compare with canonical text and see mistakes
 - **Translations** — Arabic, English, Somali, Amharic, Swahili via [Quran Enc](https://quranenc.com)
 - **Letter practice** — Hijaiyah letter classification
-- **Batch transcription** — Process multiple files, export as TXT/JSON/ZIP
 - **Export** — TXT, JSON, SRT via CLI
 
 ---
@@ -46,7 +45,6 @@ After cloning, use the modules to build your own apps:
 | **Quran memorization app** | Import `asr_engine`, `matcher`, `quran_data` → transcribe recitation, match verses, show mistakes. |
 | **Mobile / web app backend** | Run `app.py` or wrap `transcribe()` + `match_and_analyze()` in your API. |
 | **Letter learning app** | Use hijaiyah classifier from `app.py` for kids/learners. |
-| **Batch tools** | `transcribe.py --batch` or call `asr_transcribe()` in a loop, export JSON/TXT. |
 
 ---
 
@@ -83,8 +81,7 @@ Open **http://127.0.0.1:7860** in your browser.
 ### 4. CLI (optional)
 
 ```bash
-python transcribe.py path/to/audio.wav
-python transcribe.py audio.wav --match --export json
+python transcribe.py path/to/audio.wav --match --export json
 ```
 
 > [!NOTE]
@@ -96,7 +93,7 @@ python transcribe.py audio.wav --match --export json
 
 ```
 ├── app.py              # Gradio web app (entry point)
-├── transcribe.py       # CLI for transcription & batch export
+├── transcribe.py       # CLI for transcription & export
 ├── config.py           # Models, URLs, translation keys
 ├── asr_engine.py       # Whisper pipeline, audio preprocessing
 ├── matcher.py          # Verse matching, mistake detection
@@ -116,7 +113,6 @@ python transcribe.py audio.wav --match --export json
 | **Transcribe**  | Record or upload, get transcription + verse match                          |
 | **Iqra Mode**   | Select Surah:Ayah, see canonical verse (RTL), record recitation, compare   |
 | **Letter Practice** | Say one hijaiyah letter, get top-3 predictions                         |
-| **Batch**       | Upload multiple audio files, transcribe all, export as table + JSON + ZIP   |
 
 ---
 
