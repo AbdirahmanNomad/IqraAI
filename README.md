@@ -6,11 +6,12 @@ World-class Quran speech recognition with Tarteel-style mistake detection, Iqra/
 
 **Languages:** Arabic · English · Somali · Amharic · Swahili
 
-**Author:** [Abdirahman Ahmed](https://abdirahman.net)
+**Author:** [Abdirahman Ahmed](https://abdirahman.net) · Offered as sadaqa jariyah
 
 ## Contents
 
 - [Features](#features)
+- [Build with Iqra AI](#build-with-iqra-ai)
 - [Quick Start](#quick-start)
 - [Project Structure](#project-structure)
 - [Tabs](#tabs)
@@ -33,6 +34,19 @@ World-class Quran speech recognition with Tarteel-style mistake detection, Iqra/
 - **Letter practice** — Hijaiyah letter classification
 - **Batch transcription** — Process multiple files, export as TXT/JSON/ZIP
 - **Export** — TXT, JSON, SRT via CLI
+
+---
+
+## Build with Iqra AI
+
+After cloning, use the modules to build your own apps:
+
+| Build | Use |
+|-------|-----|
+| **Quran memorization app** | Import `asr_engine`, `matcher`, `quran_data` → transcribe recitation, match verses, show mistakes. |
+| **Mobile / web app backend** | Run `app.py` or wrap `transcribe()` + `match_and_analyze()` in your API. |
+| **Letter learning app** | Use hijaiyah classifier from `app.py` for kids/learners. |
+| **Batch tools** | `transcribe.py --batch` or call `asr_transcribe()` in a loop, export JSON/TXT. |
 
 ---
 
