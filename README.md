@@ -130,6 +130,8 @@ python transcribe.py audio.wav --match --export json
 | Amharic  | `amharic` | Quran Enc |
 | Swahili  | `swahili` | Quran Enc |
 
+More languages will be added in the future.
+
 ---
 
 ## Data Sources
