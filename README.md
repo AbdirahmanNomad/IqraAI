@@ -8,6 +8,8 @@ World-class Quran speech recognition with Tarteel-style mistake detection, Iqra/
 
 **Author:** [Abdirahman Ahmed](https://abdirahman.net) · Offered as sadaqa jariyah
 
+![Iqra AI mockup](mockup.png)
+
 ## Contents
 
 - [Features](#features)
